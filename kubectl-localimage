@@ -48,13 +48,13 @@ docker_save_image() {
 # Copy local tar file image to init container
 push_image() {
   echo "Copying docker image tar file to init container"
-  $KUBECTL cp /tmp/kubelocalimage.tar -c init ${1}:./
+  $KUBECTL cp /tmp/kubelocalimage.tar -c init ${1}:./ > /dev/null 2>&1
 }
 
 # Load tar file image into kube node local registry via init container
 docker_load_image() {
   echo "Loading image to registry via init pod"
-  $KUBECTL exec -c init ${1} -- docker load -i kubelocalimage.tar
+  $KUBECTL exec -c init ${1} -- docker load -i kubelocalimage.tar > /dev/null 2>&1
 }
 
 # main() function
