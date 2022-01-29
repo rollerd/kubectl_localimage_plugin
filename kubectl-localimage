@@ -2,7 +2,7 @@
 
 # Create pod with init container to install docker image
 create_reciever() {
-  echo "Creating pod ${2}"
+  echo -e "\e[32mCreating pod ${2}\e[0m"
   # Split the image into [name, tag] array
   imageArr=(${1//:/ }) 
   cat <<EOF | $KUBECTL apply -f -
@@ -41,19 +41,19 @@ EOF
 
 # Save local docker image as tar file
 docker_save_image() {
-  echo "Saving docker image to file"
+  echo -e "\e[32mSaving docker image to file\e[0m"
   docker save -o /tmp/kubelocalimage.tar "${1}"
 }
 
 # Copy local tar file image to init container
 push_image() {
-  echo "Copying docker image tar file to init container"
+  echo -e "\e[32mCopying docker image tar file to init container\e[0m"
   $KUBECTL cp /tmp/kubelocalimage.tar -c init ${1}:./
 }
 
 # Load tar file image into kube node local registry via init container
 docker_load_image() {
-  echo "Loading image to registry via init pod"
+  echo -e "\e[32mLoading image to registry via init pod\e[0m"
   $KUBECTL exec -c init ${1} -- docker load -i kubelocalimage.tar
 }
 
@@ -73,6 +73,7 @@ main() {
   create_reciever "${1}" "${2}" "${3}" "${@:4:4}"
   push_image "${2}"
   docker_load_image "${2}"
+  echo -e "\e[32m${2} is now running!\e[0m"
 }
 
 main "$@"

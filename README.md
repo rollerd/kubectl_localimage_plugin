@@ -4,7 +4,7 @@ Sometimes when troubleshooting or playing around with a remote Kuberenetes clust
 
 - you don't want to go through the hassle of pushing it to a remote registry before Kubernetes can pull it
 
-- you may have sensitive data in the container (not a good idea to begin with) and don't want to upload it to a repo
+- you may have sensitive data in the container (not a good idea to begin with) and don't want to upload it to an external registry
 
 localimage plugin is a crude way of getting your local image onto the remote Kuberenetes node and running a pod with that image
 
@@ -12,7 +12,7 @@ localimage plugin is a crude way of getting your local image onto the remote Kub
 
 localimage takes three arguments: 
 
-- local image name:tag (myimage:1.0.0)
+- local image name:tag (eg myimage:1.0.0)
 
 - name of pod that will be running the image in the cluster (eg mypod)
 
@@ -22,10 +22,10 @@ Example:
 
 ```
 $ docker images
-REPOSITORY                                                                TAG                                        IMAGE ID       CREATED         SIZE
-imagetest                                                                 1.0.0                                      81624a2072ba   2 hours ago     7.88MB
+REPOSITORY                        TAG                  IMAGE ID       CREATED         SIZE
+mylocalimage                      1.0.0                81624a2072ba   2 hours ago     7.88MB
 
-$ kubectl localimage localimage:1.0.0 mynewpod /bin/sleep "6000"
+$ kubectl localimage mylocalimage:1.0.0 mynewpod /bin/sleep "6000"
 ```
 
 #### What is the plugin doing
