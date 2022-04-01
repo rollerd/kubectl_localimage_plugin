@@ -91,6 +91,7 @@ docker_save_image() {
 # Copy local tar file image to init container
 push_image() {
   echo "Copying docker image tar file to init container"
+  sleep 5
   $KUBECTL cp /tmp/kubelocalimage.tar -c init ${1}:./ > /dev/null 2>&1
 }
 
